@@ -1,0 +1,118 @@
+Exercises
+
+1. List the commands for adding, updating, and deleting data.
+
+A: adding: INSERT, CREATE, update: UPDATE, ALTER, deleting: DELETE, DROP
+
+2. Explain the structure for each type of command.
+
+A:  CREATE - creating data
+INSERT - a set of rows are inserted into the table.  The rows are defined within parentheses (ie. (Id, name, phone) ) . Each value correspond to each column.
+UPDATE - changing data using the command by one or more clauses
+DELETE - delete data  using one or multiple clauses
+ALTER - add a column, add default values to the table
+DROP - delete a column or table
+
+3. What are some of the data types that can be used in tables? Give a real-world example of each type.
+
+A: decimal, float, - entering the price of item, entering id. Text- entering first and last names, addresses. Date, timestamp - entering  date of birth, time created a message
+
+4. Decide how to create a new table to hold a list of people invited to a wedding dinner. The table needs to have first and last names, whether they sent in their RSVP, the number of guest they are brining, and the number of meals (1 for adults and 1/2 for children).
+
+- What data type would you use to store each of the following pieces of information?
+
+- First and last name 
+			
+text
+
+- Whether they sent in their RSVP
+
+boolean
+
+- Number of guests 
+			
+Integer
+		
+- Number of meals. 
+			
+Float
+
+- Write a command that creates the table to track the wedding dinner.
+
+CREATE TABLE wedding (id integer, name text, RSVP boolean, guests numeric, meals float);
+		
+
+- Write a command that adds a column to track whether the guest sent a thank you card.
+
+ALTER TABLE wedding ADD COLUMN card boolean;
+
+- You have decided to move the data about the meals to another table, so write a command to remove the column storing the number meals from the wedding table.
+
+ALTER TABLE wedding DROP COLUMN meals;
+
+- The guests will need a place to sit at the reception, so write a command that adds a column for table number
+
+ALTER TABLE wedding ADD COLUMN tablenumber numeric; 
+
+- The wedding is over and we do not need to keep this information, so write a command the deletes the table numbers from the database.
+
+ALTER TABLE DROP COLUMN tablenumber;
+
+5. Write a command to create a new table to hold the books in a library with the columns ISBN, title, author, genre, publishing date, number of copies, and available copies.
+
+CREATE TABLE library (isbn integer, title text, author text, genre text, publishingdate integer, copies integer, available boolean);
+
+-Find three books and add their information to the table
+
+INSERT INTO library (isbn, title, author, genre, publishingdate, copies, available)
+VALUES
+(11122, 'Life', 'Smith, Bob', 'science fiction', 1999, 2, TRUE),
+(11123, 'Life Now', 'Smith, Bob', 'science fiction', 2001, 3, TRUE),
+(11144, 'Sea of Theives', 'Jones, Al', 'adventure', 2008, 1, TRUE);
+
+- Someone has just checked out one of the books. Change the number of available copies to 1 fewer
+
+UPDATE library SET copies = 1 WHERE id = 11122;
+	
+- Now one of the books has been added to the banned books list. Remove it from the table
+
+DELETE FROM library WHERE id= 11144;
+
+6. Write a command to make a new table to hold spacecrafts. Information should include id, name, year launched, country of origin, a brief description of the mission, orbiting body, if it is currently operating, and its approximate miles form Earth. In addition to the table creation, provide commands that perform the following operations:
+
+CREATE TABLE spacecraft (id integer, name text, launchdate integer, country text, description text, orbitingbody text, operating boolean, surefacetime float);
+
+- Add three non-Earth-orbiting satellites to the table
+
+INSERT INTO spacecraft (id, name, launchdate, country, description, orbitingbody, operating, surfacetime)
+VALUES
+(122587, 'Rover1', 2005,'United States', '100 total cameras',primary', TRUE 240.5),
+(128611, 'Utopia', 2015,'United States', 'none', 'primary', TRUE 260.1),
+(429585, 'Sun2', 2017,'Canada', 'none',secondary', TRUE 410.5);
+
+- Remove one of the satellites from the table since it has just crashed into the planet
+
+DELETE FROM spacecraft WHERE id= 122587;
+		
+- Edit another satellite because it is no longer operating and change the value to reflect that.
+
+UPDATE spacecraft SET operating= FALSE WHERE id= 429585;
+
+7. Write a command to create a new table to hold the emails in your inbox. This table should include an id, the subject line, the sender, any additional recipients, the body of the email, the timestamp, whether or not you have read the email, and the id of the email chain it’s in. Also provide commands that perform the following operations:
+
+CREATE TABLE inbox (id integer, subjectline text, sender text, recipients text, body text, timestamp timestamp, read boolean, chainid integer);
+
+- Add three new emails to the inbox
+
+INSERT INTO inbox (id, subjectline, sender, recipients, body, timestamp, read, chainid);
+(13345, 'Click me', 'scam@123.com', 'bob@jss.net', 'A new opportunity for you', '2016-01-11 10:44:23', FALSE, 1044),
+(13346, 'Important meeting', 'boss@ljl.com', 'bob@jss.net ss@cc.com', 'Meeting this morning. Show up', '2016-01-13 12:33:10', TRUE, 1045),
+(13347, 'I'm late', 'ggm@sss.com', 'bob@jss.net', 'I'm late', '2016-13-01 14:11:00', FALSE, 1051);
+
+-You deleted one of the emails, so write a command to remove the row from the inbox table
+
+DELETE FROM inbox WHERE id= 13345;
+
+- You started reading an email but just heard a crash in another room. Mark the email as unread before investigating the crash, so you come back and read it later
+
+UPDATE inbox SET read=TRUE WHERE id= 13347;
