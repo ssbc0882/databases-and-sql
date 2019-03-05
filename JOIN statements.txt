@@ -111,9 +111,16 @@ WHERE holds.isbn = '9136884926';
 
 - List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
 
-SELECT patrons.name, books.title
-FROM patrons
-LEFT OUTER JOIN transactions
-ON patrons.id = transactions.patron_id
-LEFT OUTER JOIN books
-ON transactions.isbn = books.isbn;
+SELECT patrons.name, 
+(SELECT books.title
+ FROM (SELECT transactions.checked_in_date, transactions.patron_id, books.title
+       FROM transactions
+       LEFT OUTER JOIN books
+       ON books.isbn = transactions.isbn
+       WHERE transactions.checked_in_date IS null) AS book
+ 	WHERE book.patron_id = patrons.id)
+FROM transactions 
+LEFT OUTER JOIN patrons 
+ON transactions.patron_id = patrons.id 
+LEFT OUTER JOIN books 
+ON books.isbn = transactions.isbn;
